@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SiparisApp.Models.CurrencyRate>
+
+@{
+    ViewBag.Title = "CurrencyRateList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header" style="background-color:#009688;text-align:center;color:white;">
+	<h2 style="color:white;">Döviz Kurları</h2>
+</div>
+
+<p>
+	@Html.ActionLink("Döviz Kuru Ekle", "CreateCurrencyRate", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+	<tr>
+		<th>
+			Para Birimi
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Date)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Rate)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Currency.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Date)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Rate)
+			</td>
+			<td>
+				@Html.ActionLink("Güncelle", "UpdateCurrencyRate", new { ID = item.ID }, new { @class = "btn btn-info" }) |
+				<a href="" onclick="Delete('@item.ID')">
+					<submit type="button" class="btn btn-danger">Sil</submit>
+				</a>
+			</td>
+		</tr>
+	}
+
+</table>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+    });
+    function Delete(ID){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("DeleteCurrencyRate", "CurrencyRate")',
+                data: {
+                    ID: ID
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+						window.location.reload();
+						var baseUrl = "/CurrencyRateList";
+
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+	}
+</script>

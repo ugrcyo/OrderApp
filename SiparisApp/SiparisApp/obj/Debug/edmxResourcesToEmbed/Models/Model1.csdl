@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SiparisDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SiparisDBEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(SiparisDBModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(SiparisDBModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="Currency" EntityType="SiparisDBModel.Currency" />
+    <EntitySet Name="CurrencyRate" EntityType="SiparisDBModel.CurrencyRate" />
+    <EntitySet Name="Items" EntityType="SiparisDBModel.Items" />
+    <EntitySet Name="Order" EntityType="SiparisDBModel.Order" />
+    <EntitySet Name="OrderDetails" EntityType="SiparisDBModel.OrderDetails" />
+    <EntitySet Name="sysdiagrams" EntityType="SiparisDBModel.sysdiagrams" />
+    <AssociationSet Name="FK_CurrencyRate_Currency" Association="SiparisDBModel.FK_CurrencyRate_Currency">
+      <End Role="Currency" EntitySet="Currency" />
+      <End Role="CurrencyRate" EntitySet="CurrencyRate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Items_Currency" Association="SiparisDBModel.FK_Items_Currency">
+      <End Role="Currency" EntitySet="Currency" />
+      <End Role="Items" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Currency" Association="SiparisDBModel.FK_OrderDetails_Currency">
+      <End Role="Currency" EntitySet="Currency" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Items" Association="SiparisDBModel.FK_OrderDetails_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Items1" Association="SiparisDBModel.FK_OrderDetails_Items1">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Order" Association="SiparisDBModel.FK_OrderDetails_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CurrencyRate" Relationship="SiparisDBModel.FK_CurrencyRate_Currency" FromRole="Currency" ToRole="CurrencyRate" />
+    <NavigationProperty Name="Items" Relationship="SiparisDBModel.FK_Items_Currency" FromRole="Currency" ToRole="Items" />
+    <NavigationProperty Name="OrderDetails" Relationship="SiparisDBModel.FK_OrderDetails_Currency" FromRole="Currency" ToRole="OrderDetails" />
+  </EntityType>
+  <EntityType Name="CurrencyRate">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrencyCode" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="Currency" Relationship="SiparisDBModel.FK_CurrencyRate_Currency" FromRole="CurrencyRate" ToRole="Currency" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CurrencyCode" Type="Int32" />
+    <NavigationProperty Name="Currency" Relationship="SiparisDBModel.FK_Items_Currency" FromRole="Items" ToRole="Currency" />
+    <NavigationProperty Name="OrderDetails" Relationship="SiparisDBModel.FK_OrderDetails_Items" FromRole="Items" ToRole="OrderDetails" />
+    <NavigationProperty Name="OrderDetails1" Relationship="SiparisDBModel.FK_OrderDetails_Items1" FromRole="Items" ToRole="OrderDetails" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="OrderDetails" Relationship="SiparisDBModel.FK_OrderDetails_Order" FromRole="Order" ToRole="OrderDetails" />
+  </EntityType>
+  <EntityType Name="OrderDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int32" />
+    <Property Name="ItemID" Type="Int32" />
+    <Property Name="CurrencyCode" Type="Int32" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="UnitPriceID" Type="Int32" />
+    <NavigationProperty Name="Currency" Relationship="SiparisDBModel.FK_OrderDetails_Currency" FromRole="OrderDetails" ToRole="Currency" />
+    <NavigationProperty Name="Items" Relationship="SiparisDBModel.FK_OrderDetails_Items" FromRole="OrderDetails" ToRole="Items" />
+    <NavigationProperty Name="Items1" Relationship="SiparisDBModel.FK_OrderDetails_Items1" FromRole="OrderDetails" ToRole="Items" />
+    <NavigationProperty Name="Order" Relationship="SiparisDBModel.FK_OrderDetails_Order" FromRole="OrderDetails" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_CurrencyRate_Currency">
+    <End Type="SiparisDBModel.Currency" Role="Currency" Multiplicity="0..1" />
+    <End Type="SiparisDBModel.CurrencyRate" Role="CurrencyRate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="CurrencyRate">
+        <PropertyRef Name="CurrencyCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Items_Currency">
+    <End Type="SiparisDBModel.Currency" Role="Currency" Multiplicity="0..1" />
+    <End Type="SiparisDBModel.Items" Role="Items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Items">
+        <PropertyRef Name="CurrencyCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Currency">
+    <End Type="SiparisDBModel.Currency" Role="Currency" Multiplicity="0..1" />
+    <End Type="SiparisDBModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="CurrencyCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Items">
+    <End Type="SiparisDBModel.Items" Role="Items" Multiplicity="0..1" />
+    <End Type="SiparisDBModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Items1">
+    <End Type="SiparisDBModel.Items" Role="Items" Multiplicity="0..1" />
+    <End Type="SiparisDBModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="UnitPriceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Order">
+    <End Type="SiparisDBModel.Order" Role="Order" Multiplicity="0..1" />
+    <End Type="SiparisDBModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

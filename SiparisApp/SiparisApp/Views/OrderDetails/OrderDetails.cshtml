@@ -1,0 +1,80 @@
+﻿@model SiparisApp.Models.OrderDetails
+
+@{
+	ViewBag.Title = "OrderDetails";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>OrderDetails</h2>
+
+<div>
+	<h4>OrderDetails</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Order.CustomerName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Order.CustomerName)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Order.Date)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Order.Date)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Order.Date)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Order.DeliveryDate)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Order.DeliveryDate)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ItemName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Quantity)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Quantity)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.UnitPrice)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.UnitPrice)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Currency.Name)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Currency.Name)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Order.CustomerName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Order.CustomerName)
+		</dd>
+
+	</dl>
+</div>
+<p>
+	@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+	@Html.ActionLink("Back to List", "OrderList")
+</p>

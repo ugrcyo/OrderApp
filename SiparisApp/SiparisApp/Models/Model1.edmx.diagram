@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="df0a748a49c346a481d3137b3a4de406" Name="Diagram1">
+        <EntityTypeShape EntityType="SiparisDBModel.Currency" Width="1.5" PointX="0.75" PointY="3" />
+        <EntityTypeShape EntityType="SiparisDBModel.CurrencyRate" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="SiparisDBModel.Items" Width="1.5" PointX="3" PointY="4.125" />
+        <EntityTypeShape EntityType="SiparisDBModel.Order" Width="1.5" PointX="3" PointY="7.75" />
+        <EntityTypeShape EntityType="SiparisDBModel.OrderDetails" Width="1.5" PointX="5.25" PointY="3.25" />
+        <EntityTypeShape EntityType="SiparisDBModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <AssociationConnector Association="SiparisDBModel.FK_CurrencyRate_Currency" />
+        <AssociationConnector Association="SiparisDBModel.FK_Items_Currency" />
+        <AssociationConnector Association="SiparisDBModel.FK_OrderDetails_Currency" />
+        <AssociationConnector Association="SiparisDBModel.FK_OrderDetails_Items" />
+        <AssociationConnector Association="SiparisDBModel.FK_OrderDetails_Items1" />
+        <AssociationConnector Association="SiparisDBModel.FK_OrderDetails_Order" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

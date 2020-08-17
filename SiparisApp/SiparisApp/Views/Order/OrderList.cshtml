@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SiparisApp.Models.Order>
+
+@{
+    ViewBag.Title = "OrderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header" style="background-color:#009688;text-align:center;color:white;">
+	<h2 style="color:white;">Siparişler</h2>
+</div>
+
+<p>
+	<a class="active"><a href="~/OrderDetails/CreateOrderDetails"><submit type="button" class="btn btn-info">Sipariş Ekle</submit></a></a></p>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.CustomerName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Date)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.DeliveryDate)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.CustomerName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Date)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DeliveryDate)
+			</td>
+			<td>			
+					<a class="active"><a href="~/OrderDetails/OrderDetails/@item.ID"><submit type="button" class="btn btn-info">Detay</submit></a></a>				
+				<a href="" onclick="Delete('@item.ID')">
+					<submit type="button" class="btn btn-danger">Sil</submit>
+				</a>
+
+			</td>
+		</tr>
+	}
+
+</table>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+    });
+    function Delete(ID) {
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("DeleteOrder", "Order")',
+                data: {
+                	ID: ID
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+						window.location.reload();
+						var baseUrl = "/OrderList";
+
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+	}
+</script>

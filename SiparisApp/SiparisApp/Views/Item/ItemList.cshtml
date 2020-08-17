@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SiparisApp.Models.Items>
+
+@{
+    ViewBag.Title = "ItemList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header" style="background-color:#009688;text-align:center;color:white;">
+	<h2 style="color:white;">Ürünler</h2>
+</div>
+
+<p>
+	<a class="active"><a href="~/Item/CreateItem"><submit type="button" class="btn btn-info">Ürün Ekle</submit></a></a>
+</p>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ItemName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.UnitPrice)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Currency)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.ItemName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.UnitPrice)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Currency.Name)
+			</td>
+			<td>
+				@Html.ActionLink("Güncelle", "UpdateItem", new { ID = item.ID }, new { @class = "btn btn-info" }) |
+				<a href="" onclick="Delete('@item.ID')">
+					<submit type="button" class="btn btn-danger">Sil</submit>
+				</a>
+			</td>
+		</tr>
+	}
+
+</table>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+    });
+    function Delete(ID) {
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("DeleteItem", "Item")',
+                data: {
+                	ID: ID
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+						window.location.reload();
+						var baseUrl = "/ItemList";
+
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+	}
+</script>
+

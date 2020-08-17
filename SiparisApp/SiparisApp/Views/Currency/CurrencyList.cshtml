@@ -1,0 +1,79 @@
+﻿@model IEnumerable<SiparisApp.Models.Currency>
+
+@{
+    ViewBag.Title = "CurrencyList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="header" style="background-color:#009688;text-align:center;color:white;">
+	<h2 style="color:white;">Para Birimleri</h2>
+</div>
+
+<p>
+	@Html.ActionLink("Para Birimi Ekle", "CreateCurrency", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Code)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Name)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Code)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.ActionLink("Güncelle", "UpdateCurrency", new { Code = item.Code }, new { @class = "btn btn-info" }) |
+				<a href="" onclick="Delete('@item.Code')">
+					<submit type="button" class="btn btn-danger">Sil</submit>
+				</a>
+			</td>
+		</tr>
+	}
+
+</table>
+
+<script>
+    $(function () {
+        $('#example1').DataTable();
+    });
+    function Delete(code){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("DeleteCurrency", "Currency")',
+                data: {
+                    code: code
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+						window.location.reload();
+						var baseUrl = "/CurrencyList";
+
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+	}
+</script>
